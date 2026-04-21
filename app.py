@@ -5,6 +5,7 @@ load_dotenv()  # .env faylini yuklash
 
 from flask import Flask
 from config import Config
+app.config.from_object(Config)
 from extensions import db, login_manager, bcrypt, csrf
 
 
