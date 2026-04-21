@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()  # .env faylini yuklash
 
 from flask import Flask
-
+from config import Config
 from extensions import db, login_manager, bcrypt, csrf
 
 
