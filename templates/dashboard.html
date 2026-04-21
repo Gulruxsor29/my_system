@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <!-- Xush kelibsiz banner -->
+    <div class="dash-header">
+        <div class="dash-header-content">
+            <div class="dash-avatar">
+                {{ user.username[0].upper() }}
+            </div>
+            <div class="dash-info">
+                <h1>Xush kelibsiz, <span class="accent">{{ user.username }}</span></h1>
+                <p class="dash-subtitle">Tizimga muvaffaqiyatli kirdingiz</p>
+            </div>
+            {% if user.is_admin %}
+                <span class="admin-badge">👑 Admin</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Statistika kartalar -->
+    <div class="dash-stats">
+        <div class="dash-card">
+            <div class="card-icon">👤</div>
+            <div class="card-content">
+                <span class="card-label">Foydalanuvchi nomi</span>
+                <span class="card-value">{{ user.username }}</span>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="card-icon">📧</div>
+            <div class="card-content">
+                <span class="card-label">Email manzil</span>
+                <span class="card-value">{{ user.email }}</span>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="card-icon">📅</div>
+            <div class="card-content">
+                <span class="card-label">Ro'yxatdan o'tgan</span>
+                <span class="card-value">{{ user.created_at.strftime('%d.%m.%Y') }}</span>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="card-icon">🔐</div>
+            <div class="card-content">
+                <span class="card-label">Xavfsizlik holati</span>
+                <span class="card-value status-ok">Himoyalangan ✓</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Xavfsizlik ma'lumotlari -->
+    <div class="dash-section">
+        <h2 class="section-title">Xavfsizlik <span class="accent">Ma'lumotlari</span></h2>
+        <div class="security-grid">
+            <div class="security-item active">
+                <span class="sec-icon">🔐</span>
+                <div>
+                    <strong>Parol Hashlash</strong>
+                    <p>BCrypt algoritmi faol</p>
+                </div>
+                <span class="sec-status">✓</span>
+            </div>
+            <div class="security-item active">
+                <span class="sec-icon">🛡</span>
+                <div>
+                    <strong>CSRF Himoya</strong>
+                    <p>Token asosida himoya</p>
+                </div>
+                <span class="sec-status">✓</span>
+            </div>
+            <div class="security-item active">
+                <span class="sec-icon">🔑</span>
+                <div>
+                    <strong>Session Xavfsizligi</strong>
+                    <p>HttpOnly cookie faol</p>
+                </div>
+                <span class="sec-status">✓</span>
+            </div>
+            <div class="security-item active">
+                <span class="sec-icon">💉</span>
+                <div>
+                    <strong>SQL Injection Himoya</strong>
+                    <p>ORM orqali himoyalangan</p>
+                </div>
+                <span class="sec-status">✓</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin havolasi -->
+    {% if user.is_admin %}
+    <div class="admin-section">
+        <div class="admin-card">
+            <span class="admin-card-icon">👑</span>
+            <div>
+                <h3>Admin Paneli</h3>
+                <p>Barcha foydalanuvchilarni boshqaring</p>
+            </div>
+            <a href="{{ url_for('admin.panel') }}" class="btn btn-primary">Panelga O'tish →</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Chiqish tugmasi -->
+    <div class="dash-actions">
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline">
+            Tizimdan Chiqish
+        </a>
+    </div>
+</div>
+{% endblock %}

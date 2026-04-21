@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Ro'yxatdan O'tish{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <!-- Chap panel -->
+        <div class="auth-visual">
+            <div class="auth-visual-content">
+                <div class="av-icon">🛡</div>
+                <h2>Hisob Yarating</h2>
+                <p>Xavfsiz autentifikatsiya tizimiga qo'shiling</p>
+                <div class="av-features">
+                    <div class="av-feature"><span>✓</span> BCrypt parol hashlash</div>
+                    <div class="av-feature"><span>✓</span> CSRF himoyasi</div>
+                    <div class="av-feature"><span>✓</span> Kuchli parol talabi</div>
+                    <div class="av-feature"><span>✓</span> XSS himoyasi</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forma -->
+        <div class="auth-form-panel">
+            <div class="auth-form-header">
+                <a href="{{ url_for('main.index') }}" class="back-link">← Orqaga</a>
+                <h1 class="form-title">Ro'yxatdan O'tish</h1>
+                <p class="form-subtitle">Yangi hisob yarating</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <label for="username" class="form-label">
+                        <span class="label-icon">👤</span> Foydalanuvchi Nomi
+                    </label>
+                    {{ form.username(class="form-input" + (" input-error" if form.username.errors else ""),
+                       id="username", placeholder="foydalanuvchi_nomi", autocomplete="username") }}
+                    {% for error in form.username.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <span class="label-icon">📧</span> Email Manzil
+                    </label>
+                    {{ form.email(class="form-input" + (" input-error" if form.email.errors else ""),
+                       id="email", placeholder="example@email.com", autocomplete="email") }}
+                    {% for error in form.email.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <span class="label-icon">🔒</span> Parol
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.password(class="form-input" + (" input-error" if form.password.errors else ""),
+                           id="password", placeholder="Kuchli parol kiriting", autocomplete="new-password") }}
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')" aria-label="Parolni ko'rsatish">👁</button>
+                    </div>
+                    {% for error in form.password.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                    <!-- Parol kuchi ko'rsatkichi -->
+                    <div class="password-strength" id="strength-bar">
+                        <div class="strength-fill" id="strength-fill"></div>
+                    </div>
+                    <span class="strength-label" id="strength-label"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password" class="form-label">
+                        <span class="label-icon">🔑</span> Parolni Tasdiqlang
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.confirm_password(class="form-input" + (" input-error" if form.confirm_password.errors else ""),
+                           id="confirm_password", placeholder="Parolni qayta kiriting", autocomplete="new-password") }}
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')" aria-label="Parolni ko'rsatish">👁</button>
+                    </div>
+                    {% for error in form.confirm_password.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Parol talablari -->
+                <div class="password-rules">
+                    <p class="rules-title">Parol talablari:</p>
+                    <ul class="rules-list">
+                        <li id="rule-len">Kamida 8 ta belgi</li>
+                        <li id="rule-upper">Kamida 1 ta katta harf (A-Z)</li>
+                        <li id="rule-lower">Kamida 1 ta kichik harf (a-z)</li>
+                        <li id="rule-num">Kamida 1 ta raqam (0-9)</li>
+                        <li id="rule-special">Kamida 1 ta maxsus belgi (!@#$...)</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span class="btn-text">Ro'yxatdan O'tish</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                Hisobingiz bormi?
+                <a href="{{ url_for('auth.login') }}" class="auth-link">Tizimga kiring</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

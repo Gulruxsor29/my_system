@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Tizimga Kirish{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <!-- Chap panel -->
+        <div class="auth-visual">
+            <div class="auth-visual-content">
+                <div class="av-icon">🔓</div>
+                <h2>Xush Kelibsiz</h2>
+                <p>Tizimga kirish uchun ma'lumotlaringizni kiriting</p>
+                <div class="av-features">
+                    <div class="av-feature"><span>✓</span> Xavfsiz ulanish</div>
+                    <div class="av-feature"><span>✓</span> Shifrlangan session</div>
+                    <div class="av-feature"><span>✓</span> Brute-force himoya</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forma -->
+        <div class="auth-form-panel">
+            <div class="auth-form-header">
+                <a href="{{ url_for('main.index') }}" class="back-link">← Orqaga</a>
+                <h1 class="form-title">Kirish</h1>
+                <p class="form-subtitle">Hisobingizga kiring</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.login') }}" class="auth-form" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <span class="label-icon">📧</span> Email Manzil
+                    </label>
+                    {{ form.email(class="form-input" + (" input-error" if form.email.errors else ""),
+                       id="email", placeholder="example@email.com", autocomplete="email") }}
+                    {% for error in form.email.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <span class="label-icon">🔒</span> Parol
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.password(class="form-input" + (" input-error" if form.password.errors else ""),
+                           id="password", placeholder="Parolingizni kiriting", autocomplete="current-password") }}
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')" aria-label="Parolni ko'rsatish">👁</button>
+                    </div>
+                    {% for error in form.password.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span class="btn-text">Kirish</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                Hisobingiz yo'qmi?
+                <a href="{{ url_for('auth.register') }}" class="auth-link">Ro'yxatdan o'ting</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

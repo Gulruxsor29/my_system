@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CyberAuth - Xavfsiz autentifikatsiya tizimi">
+    <title>{% block title %}CyberAuth{% endblock %} | Kiberxavfsizlik Tizimi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Animatsiyali fon zarrachalari -->
+<div class="particles" id="particles"></div>
+
+<!-- Navigatsiya -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{{ url_for('main.index') }}" class="nav-logo">
+            <span class="logo-icon">⬡</span>
+            <span class="logo-text">CYBER<span class="accent">AUTH</span></span>
+        </a>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+                <span class="nav-user">
+                    <span class="status-dot"></span>
+                    {{ current_user.username }}
+                </span>
+                <a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a>
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('admin.panel') }}" class="nav-link admin-link">Admin Panel</a>
+                {% endif %}
+                <a href="{{ url_for('auth.logout') }}" class="nav-btn btn-outline">Chiqish</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="nav-link">Kirish</a>
+                <a href="{{ url_for('auth.register') }}" class="nav-btn btn-primary">Ro'yxatdan o'tish</a>
+            {% endif %}
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menyu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Flash xabarlari -->
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}" role="alert">
+                    <span class="flash-icon">
+                        {% if category == 'success' %}✓{% elif category == 'danger' %}✗{% elif category == 'warning' %}⚠{% else %}ℹ{% endif %}
+                    </span>
+                    {{ message }}
+                    <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Asosiy kontent -->
+<main class="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-text">
+            <span class="accent">⬡ CyberAuth</span> — Kiberxavfsizlik Autentifikatsiya Tizimi
+        </p>
+        <p class="footer-sub">Barcha ma'lumotlar shifrlangan va himoyalangan</p>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

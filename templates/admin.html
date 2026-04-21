@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="admin-header">
+        <div>
+            <h1>👑 Admin <span class="accent">Paneli</span></h1>
+            <p>Barcha foydalanuvchilarni boshqarish</p>
+        </div>
+        <div class="admin-header-stats">
+            <span class="header-stat">
+                <strong>{{ users|length }}</strong> foydalanuvchi
+            </span>
+        </div>
+    </div>
+
+    <!-- Foydalanuvchilar jadvali -->
+    <div class="table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Foydalanuvchi</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Ro'yxat sanasi</th>
+                    <th>Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr class="{% if user.id == current_user.id %}current-user-row{% endif %}">
+                    <td class="td-id">{{ user.id }}</td>
+                    <td class="td-user">
+                        <div class="table-avatar">{{ user.username[0].upper() }}</div>
+                        <span>{{ user.username }}</span>
+                        {% if user.id == current_user.id %}
+                            <span class="you-badge">Siz</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                            <span class="role-badge admin-role">👑 Admin</span>
+                        {% else %}
+                            <span class="role-badge user-role">👤 Foydalanuvchi</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td class="td-actions">
+                        {% if user.id != current_user.id %}
+                            <!-- Admin huquqini o'zgartirish -->
+                            <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" style="display:inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="action-btn toggle-btn"
+                                    title="{{ 'Admin huquqini olish' if user.is_admin else 'Admin qilish' }}">
+                                    {{ '⬇ Oddiy' if user.is_admin else '⬆ Admin' }}
+                                </button>
+                            </form>
+                            <!-- O'chirish -->
+                            <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" style="display:inline"
+                                onsubmit="return confirm('{{ user.username }} ni o\'chirishni tasdiqlaysizmi?')">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="action-btn delete-btn" title="O'chirish">
+                                    🗑 O'chirish
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="no-action">—</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="admin-back">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline">← Dashboardga qaytish</a>
+    </div>
+</div>
+{% endblock %}

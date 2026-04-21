@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Bosh Sahifa{% endblock %}
+
+{% block content %}
+<!-- Hero bo'limi -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Kiberxavfsizlik Tizimi Faol
+        </div>
+        <h1 class="hero-title">
+            Foydalanuvchi<br>
+            <span class="gradient-text">Autentifikatsiyasi</span><br>
+            Tizimi
+        </h1>
+        <p class="hero-desc">
+            Zamonaviy kiberxavfsizlik elementlari asosida qurilgan professional
+            autentifikatsiya tizimi. Sizning ma'lumotlaringiz to'liq himoyalangan.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                Boshlash <span class="btn-arrow">→</span>
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-lg">
+                Tizimga Kirish
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-num">256</span>
+                <span class="stat-label">bit shifrlash</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num">CSRF</span>
+                <span class="stat-label">himoyasi</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num">SQL</span>
+                <span class="stat-label">injection himoya</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="shield-container">
+            <div class="shield-ring ring-1"></div>
+            <div class="shield-ring ring-2"></div>
+            <div class="shield-ring ring-3"></div>
+            <div class="shield-core">
+                <span class="shield-icon">🛡</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Xususiyatlar bo'limi -->
+<section class="features">
+    <div class="section-header">
+        <h2 class="section-title">Xavfsizlik <span class="accent">Xususiyatlari</span></h2>
+        <p class="section-sub">Tizimimiz quyidagi kiberxavfsizlik standartlariga mos keladi</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Parol Hashlash</h3>
+            <p>BCrypt algoritmi yordamida parollar xavfsiz tarzda hash qilinadi va asl ko'rinishda saqlanmaydi.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡</div>
+            <h3>CSRF Himoyasi</h3>
+            <p>Har bir forma so'rovi CSRF token bilan himoyalangan, soxta so'rovlardan to'liq muhofaza.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💉</div>
+            <h3>SQL Injection Himoya</h3>
+            <p>SQLAlchemy ORM orqali barcha so'rovlar parametrlashtirilgan, SQL injection imkonsiz.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🧹</div>
+            <h3>Input Sanitizatsiya</h3>
+            <p>Foydalanuvchi kiritgan barcha ma'lumotlar tozalanadi, XSS hujumlaridan himoyalangan.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔑</div>
+            <h3>Session Xavfsizligi</h3>
+            <p>HttpOnly cookie va SameSite atributlari bilan session o'g'irlashdan himoya.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">👑</div>
+            <h3>Admin Boshqaruvi</h3>
+            <p>Rol asosidagi kirish nazorati, admin foydalanuvchilarni boshqarishi mumkin.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA bo'limi -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2>Hoziroq Boshlang</h2>
+        <p>Xavfsiz autentifikatsiya tizimidan foydalaning</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+            Bepul Ro'yxatdan O'tish
+        </a>
+    </div>
+</section>
+{% endblock %}
